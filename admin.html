@@ -1,0 +1,25 @@
+<h2>Admin Panel</h2>
+
+<form method="post">
+<input name="id" placeholder="Student ID" required><br>
+<input name="name" placeholder="Name" required><br>
+<input name="password" placeholder="Password" required><br>
+<button>Add Student</button>
+</form>
+
+<hr>
+
+<h3>Mark Attendance</h3>
+<form action="/mark" method="post">
+<input name="id" placeholder="Student ID" required>
+<input name="subject" placeholder="Subject" required>
+
+<select name="status">
+<option>Present</option>
+<option>Absent</option>
+</select>
+
+<button>Submit</button>
+</form>
+
+<a href="/">Back</a>

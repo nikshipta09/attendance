@@ -1,0 +1,11 @@
+{
+  "student1": {
+    "password": "1234",
+    "attendance": {
+      "Math": 80,
+      "Science": 75,
+      "English": 90,
+      "History": 70
+    }
+  }
+}

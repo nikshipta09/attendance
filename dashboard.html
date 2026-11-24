@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            margin-top: 30px;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 25%;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .chart-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        canvas {
+            height: 300px !important;
+        }
+
+        .logout {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background: red;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Welcome {{ name }}</h1>
+
+<!-- CARDS -->
+<div class="cards">
+    <div class="card">Subjects: {{ subject_data|length }}</div>
+    <div class="card">Records: {{ date_labels|length }}</div>
+    <div class="card">System: Active</div>
+</div>
+
+<!-- CHARTS -->
+<div class="charts">
+
+    <div class="chart-box">
+        <h3>Date-wise Attendance 📊</h3>
+        <canvas id="dateChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Monthly Analysis 📅</h3>
+        <canvas id="monthChart"></canvas>
+    </div>
+
+    <div class="chart-box">
+        <h3>Subject-wise Attendance 🎯</h3>
+        <canvas id="subjectChart"></canvas>
+    </div>
+
+</div>
+
+</div>
+
+<script>
+// DATE GRAPH
+new Chart(document.getElementById('dateChart'), {
+    type: 'line',
+    data: {
+        labels: {{ date_labels | tojson }},
+        datasets: [{
+            label: 'Attendance %',
+            data: {{ date_percent | tojson }},
+            borderColor: 'blue',
+            fill: false
+        }]
+    }
+});
+
+// MONTH GRAPH
+new Chart(document.getElementById('monthChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ month_labels | tojson }},
+        datasets: [{
+            label: 'Monthly %',
+            data: {{ month_percent | tojson }},
+            backgroundColor: 'green'
+        }]
+    }
+});
+
+// SUBJECT GRAPH
+new Chart(document.getElementById('subjectChart'), {
+    type: 'pie',
+    data: {
+        labels: {{ subject_data.keys() | list | tojson }},
+        datasets: [{
+            data: {{ subject_data.values() | list | tojson }},
+            backgroundColor: ['red','blue','green','orange']
+        }]
+    }
+});
+</script>
+
+<a href="/logout"><button class="logout">Logout</button></a>
+
+</body>
+</html>
